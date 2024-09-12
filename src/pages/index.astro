@@ -1,16 +1,117 @@
 ---
+// src/pages/index.astro
+import { loadQuery } from '../sanity/lib/load-query';
+import DinosaurCard from '../components/DinosaurCard.astro';
 
+const dinosaurQuery = `*[_type == "dinosaur"] {
+  _id,
+  name,
+  scientificName,
+  "group": group->name,
+  "period": period->name,
+  "diet": diet->name,
+  "habitat": habitat->name,
+  description,
+  funFact,
+  length,
+  weight,
+  "imageUrl": image.asset->url
+}`;
+
+const { data: dinosaurs } = await loadQuery({ query: dinosaurQuery });
+const periods = [...new Set(dinosaurs.map((dino) => dino.period))];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Dino World for Toddlers</title>
+    <style>
+      /* ... (previous styles) ... */
+      .filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .filter-button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .filter-button.active {
+        background-color: #45a049;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Welcome to Dino World!</h1>
+      <div class='filter-buttons'>
+        <button class='filter-button active' data-period='all'
+          >All Periods</button
+        >
+        {
+          periods.map((period) => (
+            <button class='filter-button' data-period={period}>
+              {period}
+            </button>
+          ))
+        }
+      </div>
+      <div class='dinosaur-grid'>
+        {
+          dinosaurs.map((dino) => (
+            <div class='dinosaur-item' data-period={dino.period}>
+              <DinosaurCard
+                name={dino.name}
+                scientificName={dino.scientificName}
+                period={dino.period}
+                diet={dino.diet}
+                length={dino.length}
+                weight={dino.weight}
+                description={dino.description}
+                funFact={dino.funFact}
+                imageUrl={dino.imageUrl}
+                soundUrl={dino.soundUrl}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <script>
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const dinosaurItems = document.querySelectorAll('.dinosaur-item');
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const period = button.getAttribute('data-period');
+
+          filterButtons.forEach((btn) => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          dinosaurItems.forEach((item) => {
+            if (
+              period === 'all' ||
+              item.getAttribute('data-period') === period
+            ) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
