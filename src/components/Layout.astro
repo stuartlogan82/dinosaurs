@@ -1,6 +1,9 @@
 ---
 // src/layouts/Layout.astro
+import { VisualEditing } from '@sanity/astro/visual-editing';
 const { title } = Astro.props;
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == 'true';
 ---
 
 <html lang='en'>
@@ -16,6 +19,7 @@ const { title } = Astro.props;
     />
   </head>
   <body>
+    <VisualEditing enabled={visualEditingEnabled} />
     <header>
       <nav>
         <ul>
@@ -38,7 +42,7 @@ const { title } = Astro.props;
 
 <style is:global>
   :root {
-    --color-primary: #ff6b6b;
+    --color-primary: #ffab91;
     --color-secondary: #4ecdc4;
     --color-background: #f7f7f7;
     --color-text: #333333;
@@ -46,7 +50,7 @@ const { title } = Astro.props;
 
   body {
     font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
-    background-color: var(--color-background);
+    background: linear-gradient(to bottom, #87ceeb, #90ee90);
     color: var(--color-text);
     line-height: 1.6;
     margin: 0;

@@ -2,22 +2,15 @@
 // src/pages/index.astro
 import Layout from '../components/Layout.astro';
 import DinosaurFilter from '../components/DinosaurFilter.astro';
+import DinoHero from '../components/DinoHero.astro';
 
 const pageTitle = 'Dino Explorer for Toddlers!';
 ---
 
 <Layout title={pageTitle}>
   <main>
-    <h1>{pageTitle}</h1>
-
     <section class='intro'>
-      <h2>Welcome, Little Explorers!</h2>
-      <p>Get ready for a roaring adventure through the world of dinosaurs!</p>
-      <img
-        src='/images/friendly-dino.png'
-        alt='Friendly Cartoon Dinosaur'
-        class='welcome-dino'
-      />
+      <DinoHero />
     </section>
 
     <section class='dino-finder'>
@@ -41,7 +34,7 @@ const pageTitle = 'Dino Explorer for Toddlers!';
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    /* font-family: 'Comic Sans MS', cursive, sans-serif; */
   }
 
   h1 {
