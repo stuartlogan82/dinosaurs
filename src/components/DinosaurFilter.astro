@@ -1,0 +1,26 @@
+---
+// src/components/DinosaurFilter.astro
+import {
+  getDinosaurs,
+  getGroups,
+  getPeriods,
+  getDiets,
+  getHabitats,
+} from '../sanity/lib/queries';
+import DinosaurList from './DinosaurList.astro';
+
+const initialDinosaurs = await getDinosaurs();
+const groups = await getGroups();
+const periods = await getPeriods();
+const diets = await getDiets();
+const habitats = await getHabitats();
+---
+
+<DinosaurList
+  client:load
+  initialDinosaurs={initialDinosaurs}
+  groups={groups}
+  periods={periods}
+  diets={diets}
+  habitats={habitats}
+/>

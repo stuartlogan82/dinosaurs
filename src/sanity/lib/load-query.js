@@ -6,8 +6,6 @@ export async function loadQuery( {
 } ) {
   const {result} = await sanityClient.fetch(query, params??{},{filterResponse:false});
 
-
-
 return {
   data: result,
 }}
