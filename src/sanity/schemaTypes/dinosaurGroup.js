@@ -18,5 +18,13 @@ export const dinosaurGroupType = defineType({
       title: 'Description',
       type: 'text'
     }),
+    defineField({
+      name: 'icon',
+      title: 'Group Icon',
+      type: 'image',
+      options: {
+        hotspot: true
+      }
+    })
   ]
 })
