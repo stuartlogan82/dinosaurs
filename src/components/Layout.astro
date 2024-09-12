@@ -1,0 +1,118 @@
+---
+// src/layouts/Layout.astro
+const { title } = Astro.props;
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{title} | Dino Explorer for Toddlers</title>
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+    <!-- You can add Google Fonts here if you want to use a specific font -->
+    <link
+      href='https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap'
+      rel='stylesheet'
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href='/'>Home</a></li>
+          <li><a href='/about'>About</a></li>
+          <li><a href='/dino-game'>Dino Game</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>© 2024 Dino Explorer for Toddlers. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #ff6b6b;
+    --color-secondary: #4ecdc4;
+    --color-background: #f7f7f7;
+    --color-text: #333333;
+  }
+
+  body {
+    font-family: 'Nunito', 'Comic Sans MS', cursive, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background-color: var(--color-primary);
+    padding: 1rem;
+  }
+
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 0 1rem;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  footer {
+    background-color: var(--color-secondary);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--color-primary);
+  }
+
+  a {
+    color: var(--color-secondary);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 768px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin: 0.5rem 0;
+    }
+  }
+</style>
