@@ -1,47 +1,121 @@
-# Astro Starter Kit: Minimal
+# Dino Explorer for Toddlers
 
-```sh
-npm create astro@latest -- --template minimal
+Welcome to the Dino Explorer for Toddlers project! This interactive web application is designed to help young children learn about dinosaurs in a fun and engaging way.
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [Deployment](#deployment)
+- [License](#license)
+
+## Project Overview
+
+Dino Explorer for Toddlers is an educational web application that allows children to discover various dinosaur species, learn about their characteristics, and enjoy interactive features like dinosaur sounds and videos.
+
+Key features include:
+
+- Interactive dinosaur cards with images and information
+- Filtering dinosaurs by group, period, diet, and habitat
+- Alphabetical filtering
+- YouTube video integration for dinosaur sounds
+- Text-to-speech functionality for letter pronunciation
+- Responsive design for various devices
+
+## Technologies Used
+
+- [Astro](https://astro.build/) - Static Site Generator
+- [Sanity CMS](https://www.sanity.io/) - Headless CMS for content management
+- [React](https://reactjs.org/) - For interactive components
+- [Tailwind CSS](https://tailwindcss.com/) - For styling
+- [YouTube API](https://developers.google.com/youtube/v3) - For video integration
+- [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) - For text-to-speech functionality
+
+## Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v14 or later)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-username/dino-explorer-for-toddlers.git
+   cd dino-explorer-for-toddlers
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add the following:
+
+   ```
+   PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
+   PUBLIC_SANITY_DATASET=your_sanity_dataset
+   PUBLIC_SANITY_API_VERSION=your_sanity_api_version
+   ```
+
+4. Start the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+5. Open your browser and navigate to `http://localhost:3000`
+
+## Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
+dino-explorer-for-toddlers/
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   ├── sanity/
+│   └── utils/
+├── public/
+├── astro.config.mjs
+├── tailwind.config.cjs
+├── tsconfig.json
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Contributing
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+We welcome contributions to the Dino Explorer for Toddlers project! Here's how you can contribute:
 
-Any static assets, like images, can be placed in the `public/` directory.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
 
-## 🧞 Commands
+Please ensure your code adheres to the existing style and passes all tests before submitting a pull request.
 
-All commands are run from the root of the project, from a terminal:
+## Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+This project is set up to be deployed on Vercel. To deploy:
 
-## 👀 Want to learn more?
+1. Push your changes to the main branch of your GitHub repository
+2. Connect your GitHub repository to Vercel
+3. Vercel will automatically deploy your site
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
