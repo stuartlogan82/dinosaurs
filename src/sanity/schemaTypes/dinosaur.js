@@ -81,14 +81,15 @@ export const dinosaurType = defineType({
         hotspot: true
       }
     }),
-    defineField(
-    {
-      name: 'sound',
-      title: 'Dinosaur Sound',
-      type: 'file',
-      options: {
-        accept: 'audio/*'
-      }
+    defineField({
+      name: 'youtubeLink',
+      title: 'YouTube Link',
+      type: 'url',
+      description: 'Add a YouTube link for the dinosaur sound',
+      validation: Rule => Rule.uri({
+        scheme: ['http', 'https'],
+        allowRelative: false
+      })
     }),
   ]
 })

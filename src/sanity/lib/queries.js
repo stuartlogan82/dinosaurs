@@ -15,12 +15,12 @@ export const getDinosaurs = async (filters = {}) => {
     "period": period->name,
     "diet": diet->name,
     "habitat": habitat->name,
-    "habitatImageUrl": habitat->image.asset->url,
     description,
     funFact,
     length,
     weight,
-    "imageUrl": image.asset->url
+    "imageUrl": image.asset->url,
+    youtubeLink
   }`;
 
   const params = {
