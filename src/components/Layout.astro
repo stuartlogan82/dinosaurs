@@ -10,6 +10,7 @@ const visualEditingEnabled =
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='generator' content={Astro.generator} />
     <title>{title} | Dino Explorer for Toddlers</title>
     <link rel='icon' type='image/x-icon' href='/favicon.ico' />
     <!-- You can add Google Fonts here if you want to use a specific font -->
@@ -19,7 +20,6 @@ const visualEditingEnabled =
     />
   </head>
   <body>
-    <VisualEditing enabled={visualEditingEnabled} />
     <header>
       <nav>
         <ul>
@@ -32,6 +32,7 @@ const visualEditingEnabled =
 
     <main>
       <slot />
+      <VisualEditing enabled={visualEditingEnabled} />
     </main>
 
     <footer>
