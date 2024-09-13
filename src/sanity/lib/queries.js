@@ -15,6 +15,7 @@ export const getDinosaurs = async (filters = {}) => {
     "period": period->name,
     "diet": diet->name,
     "habitat": habitat->name,
+    "habitatImageUrl": habitat->image.asset->url,
     description,
     funFact,
     length,
