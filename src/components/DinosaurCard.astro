@@ -1,5 +1,7 @@
 ---
 // src/components/DinosaurCard.astro
+import { Volume2 } from 'lucide-react';
+
 const {
   name,
   scientificName,
@@ -12,6 +14,7 @@ const {
   funFact,
   imageUrl,
   youtubeLink,
+  habitatImageUrl,
 } = Astro.props.dino;
 
 function getYoutubeId(url) {
@@ -23,32 +26,42 @@ function getYoutubeId(url) {
 }
 ---
 
-<div class='dinosaur-card'>
-  <img src={imageUrl} alt={name} class='dinosaur-image' />
-  <h2>{name}</h2>
-  <p><em>{scientificName}</em></p>
-  <ul>
-    <li><strong>Period:</strong> {period}</li>
-    <li><strong>Diet:</strong> {diet}</li>
-    <li><strong>Habitat:</strong> {habitat}</li>
-    <li><strong>Length:</strong> {length} meters</li>
-    <li><strong>Weight:</strong> {weight} tons</li>
-  </ul>
-  <p class='description'>{description}</p>
-  <div class='fun-fact'>
-    <h3>Fun Fact:</h3>
-    <p>{funFact}</p>
-  </div>
-  {
-    youtubeLink && (
-      <button class='roar-button' aria-label='Play dinosaur sound'>
-        Hear me roar!
+<div
+  class='dinosaur-card'
+  style={`background-image: url(${habitatImageUrl}); background-size: cover; background-position: center;`}
+>
+  <div class='card-content'>
+    <img src={imageUrl} alt={name} class='dinosaur-image' />
+    <h2>
+      {name}
+      <button class='pronounce-button' aria-label={`Pronounce ${name}`}>
+        <Volume2 size={20} />
       </button>
-    )
-  }
-  <div class='video-container' style='display: none;'>
-    <div id={`youtube-player-${getYoutubeId(youtubeLink)}`}></div>
-    <button class='close-button' aria-label='Close video'>Close</button>
+    </h2>
+    <p><em>{scientificName}</em></p>
+    <ul>
+      <li><strong>Period:</strong> {period}</li>
+      <li><strong>Diet:</strong> {diet}</li>
+      <li><strong>Habitat:</strong> {habitat}</li>
+      <li><strong>Length:</strong> {length} meters</li>
+      <li><strong>Weight:</strong> {weight} tons</li>
+    </ul>
+    <p class='description'>{description}</p>
+    <div class='fun-fact'>
+      <h3>Fun Fact:</h3>
+      <p>{funFact}</p>
+    </div>
+    {
+      youtubeLink && (
+        <button class='roar-button' aria-label='Play dinosaur sound'>
+          Hear me roar!
+        </button>
+      )
+    }
+    <div class='video-container' style='display: none;'>
+      <div id={`youtube-player-${getYoutubeId(youtubeLink)}`}></div>
+      <button class='close-button' aria-label='Close video'>Close</button>
+    </div>
   </div>
 </div>
 
@@ -58,10 +71,16 @@ function getYoutubeId(url) {
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
     transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-content {
+    background-color: rgba(249, 249, 249, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+    z-index: 1;
   }
   .dinosaur-image {
     max-width: 100%;
@@ -69,18 +88,18 @@ function getYoutubeId(url) {
     border-radius: 5px;
   }
   .description {
-    flex-grow: 1;
-    overflow-y: auto;
     max-height: 100px;
+    overflow-y: auto;
   }
   .fun-fact {
-    background-color: #e6f7ff;
+    background-color: rgba(230, 247, 255, 0.8);
     padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
   }
   .roar-button,
-  .close-button {
+  .close-button,
+  .pronounce-button {
     background-color: #4caf50;
     border: none;
     color: white;
@@ -96,6 +115,11 @@ function getYoutubeId(url) {
   .close-button {
     background-color: #f44336;
   }
+  .pronounce-button {
+    background-color: #3498db;
+    padding: 5px 10px;
+    vertical-align: middle;
+  }
   .video-container {
     margin-top: 20px;
     width: 100%;
@@ -109,14 +133,30 @@ function getYoutubeId(url) {
     bottom: 0;
     right: 0;
   }
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 </style>
 
-<script define:vars={{ youtubeLink, name }}>
+<script>
+  import { speak } from '../utils/textToSpeech';
+
   // Load the YouTube API script
   var tag = document.createElement('script');
   tag.src = 'https://www.youtube.com/iframe_api';
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  document.querySelectorAll('.dinosaur-card').forEach((card) => {
+    const pronounceButton = card.querySelector('.pronounce-button');
+    const name = card.querySelector('h2').textContent.trim();
+
+    pronounceButton.addEventListener('click', () => {
+      speak(name);
+    });
+  });
 
   // This function will be called when the YouTube API is ready
   window.onYouTubeIframeAPIReady = function () {
