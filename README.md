@@ -76,7 +76,7 @@ Before you begin, ensure you have the following installed:
    npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`
+5. Open your browser and navigate to `http://localhost:4321`
 
 ## Project Structure
 
