@@ -6,6 +6,7 @@ import DinosaurCard from './DinosaurCard.astro';
 const { groups, periods, diets, habitats } = Astro.props;
 
 const allDinosaurs = await getDinosaurs();
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 ---
 
 <div id='dinosaur-list'>
@@ -36,6 +37,17 @@ const allDinosaurs = await getDinosaurs();
     </select>
     <button id='reset-filters'>Reset Filters</button>
   </div>
+
+  <div class='alphabet-filter'>
+    {
+      alphabet.map((letter) => (
+        <button class='letter-button' data-letter={letter}>
+          {letter}
+        </button>
+      ))
+    }
+  </div>
+
   <div class='dinosaur-grid'>
     {
       allDinosaurs.map((dino) => (
@@ -45,6 +57,7 @@ const allDinosaurs = await getDinosaurs();
           data-period={dino.period}
           data-diet={dino.diet}
           data-habitat={dino.habitat}
+          data-name={dino.name}
         >
           <DinosaurCard dino={dino} />
         </div>
@@ -57,12 +70,25 @@ const allDinosaurs = await getDinosaurs();
   const filterSelects = document.querySelectorAll('.filters select');
   const dinoCards = document.querySelectorAll('.dino-card-wrapper');
   const resetButton = document.getElementById('reset-filters');
+  const letterButtons = document.querySelectorAll('.letter-button');
 
   filterSelects.forEach((select) => {
     select.addEventListener('change', updateVisibility);
   });
 
   resetButton.addEventListener('click', resetFilters);
+
+  letterButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const letter = e.target.dataset.letter;
+      filterByLetter(letter);
+    });
+
+    button.addEventListener('mouseenter', (e) => {
+      const letter = e.target.dataset.letter;
+      speakLetter(letter);
+    });
+  });
 
   function updateVisibility() {
     const filters = {
@@ -72,8 +98,6 @@ const allDinosaurs = await getDinosaurs();
       habitat: document.getElementById('habitat-filter').value,
     };
 
-    console.log('Applied filters:', filters);
-
     dinoCards.forEach((card) => {
       const cardData = {
         group: card.dataset.group,
@@ -82,18 +106,13 @@ const allDinosaurs = await getDinosaurs();
         habitat: card.dataset.habitat,
       };
 
-      console.log('Card data:', cardData);
-
       const isVisible =
         (filters.group === '' || cardData.group === filters.group) &&
         (filters.period === '' || cardData.period === filters.period) &&
         (filters.diet === '' || cardData.diet === filters.diet) &&
         (filters.habitat === '' || cardData.habitat === filters.habitat);
 
-      console.log('Is visible:', isVisible);
-
       card.style.display = isVisible ? 'block' : 'none';
-      //card.classList.toggle('hidden', !isVisible);
     });
   }
 
@@ -104,23 +123,32 @@ const allDinosaurs = await getDinosaurs();
     dinoCards.forEach((card) => {
       card.style.display = 'block';
     });
+    letterButtons.forEach((button) => {
+      button.classList.remove('active');
+    });
+  }
+
+  function filterByLetter(letter) {
+    dinoCards.forEach((card) => {
+      const dinoName = card.dataset.name;
+      const isVisible = dinoName.toUpperCase().startsWith(letter);
+      card.style.display = isVisible ? 'block' : 'none';
+    });
+
+    letterButtons.forEach((button) => {
+      button.classList.toggle('active', button.dataset.letter === letter);
+    });
+  }
+
+  function speakLetter(letter) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(letter);
+      speechSynthesis.speak(utterance);
+    }
   }
 </script>
 
 <style>
-  /* .filters {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .filters select {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  } */
   .filters {
     display: flex;
     justify-content: space-between;
@@ -150,6 +178,33 @@ const allDinosaurs = await getDinosaurs();
     background-color: #45a049;
   }
 
+  .alphabet-filter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+
+  .letter-button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 1.2em;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .letter-button:hover,
+  .letter-button.active {
+    background-color: #4caf50;
+    color: white;
+    transform: scale(1.2);
+  }
+
   .dinosaur-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -159,7 +214,7 @@ const allDinosaurs = await getDinosaurs();
   .dino-card-wrapper {
     transition:
       opacity 0.3s ease,
-      transfor 0.3s ease;
+      transform 0.3s ease;
   }
 
   .dino-card-wrapper.hidden {
