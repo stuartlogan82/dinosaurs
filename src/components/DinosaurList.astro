@@ -142,7 +142,9 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   function speakLetter(letter) {
     if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(letter);
+      const utterance = new SpeechSynthesisUtterance(letter.toLowerCase());
+      utterance.rate = 0.8; // Slow down the speech rate slightly
+      utterance.pitch = 1.2; // Adjust pitch to make it sound more clear
       speechSynthesis.speak(utterance);
     }
   }
