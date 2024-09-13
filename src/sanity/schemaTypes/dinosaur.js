@@ -1,8 +1,10 @@
 import { defineField, defineType } from "sanity";
+import { GiDinosaurBones } from "react-icons/gi";
 
 export const dinosaurType = defineType({
   name: 'dinosaur',
   title: 'Dinosaur',
+  icon: GiDinosaurBones,
   type: 'document',
   fields: [
     defineField(

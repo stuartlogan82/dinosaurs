@@ -18,5 +18,14 @@ export const habitatType = defineType({
       title: 'Description',
       type: 'text'
     }),
+    defineField(
+      {
+        name: 'image',
+        title: 'Image',
+        type: 'image',
+        options: {
+          hotspot: true
+        }
+      }),
   ]
 })
