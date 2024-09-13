@@ -6,7 +6,6 @@ const {
   period,
   diet,
   habitat,
-  habitatImageUrl,
   length,
   weight,
   description,
@@ -14,28 +13,33 @@ const {
   imageUrl,
   soundUrl,
 } = Astro.props.dino;
+console.log(Astro.props);
 ---
 
-<div class='dinosaur-card' style={`background-image: url(${habitatImageUrl});`}>
-  <div class='card-content'>
-    <img src={imageUrl} alt={name} class='dinosaur-image' />
-    <h2>{name}</h2>
-    <p><em>{scientificName}</em></p>
-    <ul>
-      <li><strong>Period:</strong> {period}</li>
-      <li><strong>Diet:</strong> {diet}</li>
-      <li><strong>Habitat:</strong> {habitat}</li>
-      <li><strong>Length:</strong> {length} meters</li>
-      <li><strong>Weight:</strong> {weight} tons</li>
-    </ul>
-    <p>{description}</p>
-    <div class='fun-fact'>
-      <h3>Fun Fact:</h3>
-      <p>{funFact}</p>
-    </div>
-    <button class='roar-button'>Hear me roar!</button>
-    <audio id={`${name}-sound`} src={soundUrl}></audio>
+<div class='dinosaur-card'>
+  <img src={imageUrl} alt={name} class='dinosaur-image' />
+  <h2>{name}</h2>
+  <p><em>{scientificName}</em></p>
+  <ul>
+    <li><strong>Period:</strong> {period}</li>
+    <li><strong>Diet:</strong> {diet}</li>
+    <li><strong>Habitat:</strong> {habitat}</li>
+    <li><strong>Length:</strong> {length} meters</li>
+    <li><strong>Weight:</strong> {weight} tons</li>
+  </ul>
+  <p>{description}</p>
+  <div class='fun-fact'>
+    <h3>Fun Fact:</h3>
+    <p>{funFact}</p>
   </div>
+  {
+    soundUrl && (
+      <>
+        <button class='roar-button'>Hear me roar!</button>
+        <audio id={`${name}-sound`} src={soundUrl} />
+      </>
+    )
+  }
 </div>
 
 <style>
@@ -44,18 +48,11 @@ const {
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    background-size: cover;
-    background-position: center;
+    background-color: #f9f9f9;
     transition: transform 0.3s ease;
-    position: relative;
   }
   .dinosaur-card:hover {
     transform: scale(1.05);
-  }
-  .card-content {
-    background-color: rgba(249, 249, 249, 0.8);
-    border-radius: 8px;
-    padding: 15px;
   }
   .dinosaur-image {
     max-width: 100%;
@@ -63,7 +60,7 @@ const {
     border-radius: 5px;
   }
   .fun-fact {
-    background-color: rgba(230, 247, 255, 0.8);
+    background-color: #e6f7ff;
     padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
