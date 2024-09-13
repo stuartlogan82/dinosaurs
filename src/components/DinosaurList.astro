@@ -72,6 +72,8 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const resetButton = document.getElementById('reset-filters');
   const letterButtons = document.querySelectorAll('.letter-button');
 
+  let currentLetter = '';
+
   filterSelects.forEach((select) => {
     select.addEventListener('change', updateVisibility);
   });
@@ -81,7 +83,8 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   letterButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       const letter = e.target.dataset.letter;
-      filterByLetter(letter);
+      currentLetter = letter;
+      updateVisibility();
     });
 
     button.addEventListener('mouseenter', (e) => {
@@ -104,47 +107,45 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         period: card.dataset.period,
         diet: card.dataset.diet,
         habitat: card.dataset.habitat,
+        name: card.dataset.name,
       };
 
       const isVisible =
         (filters.group === '' || cardData.group === filters.group) &&
         (filters.period === '' || cardData.period === filters.period) &&
         (filters.diet === '' || cardData.diet === filters.diet) &&
-        (filters.habitat === '' || cardData.habitat === filters.habitat);
+        (filters.habitat === '' || cardData.habitat === filters.habitat) &&
+        (currentLetter === '' ||
+          cardData.name.toUpperCase().startsWith(currentLetter));
 
       card.style.display = isVisible ? 'block' : 'none';
     });
+
+    updateLetterButtons();
   }
 
   function resetFilters() {
     filterSelects.forEach((select) => {
       select.value = '';
     });
-    dinoCards.forEach((card) => {
-      card.style.display = 'block';
-    });
-    letterButtons.forEach((button) => {
-      button.classList.remove('active');
-    });
+    currentLetter = '';
+    updateVisibility();
   }
 
-  function filterByLetter(letter) {
-    dinoCards.forEach((card) => {
-      const dinoName = card.dataset.name;
-      const isVisible = dinoName.toUpperCase().startsWith(letter);
-      card.style.display = isVisible ? 'block' : 'none';
-    });
-
+  function updateLetterButtons() {
     letterButtons.forEach((button) => {
-      button.classList.toggle('active', button.dataset.letter === letter);
+      button.classList.toggle(
+        'active',
+        button.dataset.letter === currentLetter
+      );
     });
   }
 
   function speakLetter(letter) {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(letter.toLowerCase());
-      utterance.rate = 0.8; // Slow down the speech rate slightly
-      utterance.pitch = 1.2; // Adjust pitch to make it sound more clear
+      utterance.rate = 0.8;
+      utterance.pitch = 1.2;
       speechSynthesis.speak(utterance);
     }
   }
@@ -217,7 +218,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     transition:
       opacity 0.3s ease,
       transform 0.3s ease;
-      display:flex;
+    display: flex;
   }
 
   .dino-card-wrapper.hidden {
