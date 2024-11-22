@@ -6,8 +6,9 @@ import { structure } from './src/sanity/structure';
 import { presentationTool } from 'sanity/presentation';
 
 export default defineConfig({
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+  projectId: 'bfkgtcoi',
+  dataset: 'production',
+  autoUpdates: true,
   plugins: [
     structureTool({ structure }),
     presentationTool({
