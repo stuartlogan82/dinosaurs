@@ -8,6 +8,7 @@ import { presentationTool } from 'sanity/presentation';
 export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+  autoUpdates: true,
   plugins: [
     structureTool({ structure }),
     presentationTool({
