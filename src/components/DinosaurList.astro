@@ -80,18 +80,18 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   resetButton.addEventListener('click', resetFilters);
 
-  letterButtons.forEach((button) => {
-    button.addEventListener('click', (e) => {
-      const letter = e.target.dataset.letter;
-      currentLetter = letter;
-      updateVisibility();
-    });
+  // letterButtons.forEach((button) => {
+  //   button.addEventListener('click', (e) => {
+  //     const letter = e.target.dataset.letter;
+  //     currentLetter = letter;
+  //     updateVisibility();
+  //   });
 
-    button.addEventListener('mouseenter', (e) => {
-      const letter = e.target.dataset.letter;
-      speakLetter(letter);
-    });
-  });
+  //   button.addEventListener('mouseenter', (e) => {
+  //     const letter = e.target.dataset.letter;
+  //     speakLetter(letter);
+  //   });
+  // });
 
   function updateVisibility() {
     const filters = {
